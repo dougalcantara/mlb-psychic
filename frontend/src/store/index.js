@@ -19,15 +19,17 @@ export const AppContext = createContext();
 
 const initialState = {
   user: null,
+  currentGame: null,
 };
 
 const AppContextActions = {
-  SET_USER: 'SET_FOCUSED_USER',
+  SET_USER: 'SET_USER',
+  SET_CURRENT_GAME: 'SET_CURRENT_GAME',
   RESET: 'RESET',
 };
 
 function AppContextReducer(state, action) {
-  const { SET_USER, RESET } = AppContextActions;
+  const { SET_USER, RESET, SET_CURRENT_GAME } = AppContextActions;
   const { value } = action;
 
   switch (action.type) {
@@ -35,13 +37,15 @@ function AppContextReducer(state, action) {
       return { ...state, user: value };
     case RESET:
       return { ...state, ...initialState };
+    case SET_CURRENT_GAME:
+      return { ...state, currentGame: value };
     default:
       return state;
   }
 }
 
 export function AppContextProvider({ children }) {
-  const { SET_USER, RESET } = AppContextActions;
+  const { SET_USER, SET_CURRENT_GAME, RESET } = AppContextActions;
   const [state, dispatch] = useReducer(AppContextReducer, initialState);
 
   const providerValue = {
@@ -50,6 +54,12 @@ export function AppContextProvider({ children }) {
       dispatch({
         type: SET_USER,
         value: user,
+      });
+    },
+    setCurrentGame(game) {
+      dispatch({
+        type: SET_CURRENT_GAME,
+        value: game,
       });
     },
     reset() {

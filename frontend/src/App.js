@@ -19,20 +19,22 @@ export default function App() {
       <AppContextProvider>
         <AuthContainer>
           <AppHeader />
-          <Switch>
-            <Route exact path="/">
-              <Home />
-            </Route>
-            <Route exact path="/login">
-              <Login />
-            </Route>
-            <Route exact path="/schedule">
-              <Schedule />
-            </Route>
-            <Route exact path="/game/:id">
-              <GameView />
-            </Route>
-          </Switch>
+          <div className="container mx-auto pt-4 max-w-80">
+            <Switch>
+              <Route exact path="/">
+                <Home />
+              </Route>
+              <Route exact path="/login">
+                <Login />
+              </Route>
+              <Route exact path="/schedule">
+                <Schedule />
+              </Route>
+              <Route exact path="/game/:id">
+                <GameView />
+              </Route>
+            </Switch>
+          </div>
         </AuthContainer>
       </AppContextProvider>
     </div>

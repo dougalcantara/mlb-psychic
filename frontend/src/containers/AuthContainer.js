@@ -8,18 +8,28 @@ export default function AuthContainer({ children }) {
   const { pathname } = useLocation();
   const { push } = useHistory();
 
-  useEffect(() => {
-    auth.onAuthStateChanged(user => {
-      if (!user) {
-        setUser(null);
-        return push('/login');
-      };
+  function authStateWatcher(cb) {
+    return auth.onAuthStateChanged(user => {
+      if (user) {
+        if (pathname === '/login') {
+          push('/schedule');
+        }
 
-      if (pathname === '/login') {
-        setUser(user);
-        push('/schedule');
+        return cb(user);
+      } else {
+        push('/login');
+        return cb(null);
       }
     });
+  
+  }
+
+  useEffect(() => {
+    const unsubscribe = authStateWatcher(setUser);
+
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   return <div className="auth-container">{children}</div>
