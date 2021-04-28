@@ -38,6 +38,7 @@ function AppContextReducer(state, action) {
     case RESET:
       return { ...state, ...initialState };
     case SET_CURRENT_GAME:
+      console.log('SET_CURRENT_GAME', value);
       return { ...state, currentGame: value };
     default:
       return state;
@@ -50,6 +51,7 @@ export function AppContextProvider({ children }) {
 
   const providerValue = {
     user: state.user,
+    currentGame: state.currentGame,
     setUser(user) {
       dispatch({
         type: SET_USER,
